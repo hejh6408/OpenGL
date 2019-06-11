@@ -35,29 +35,32 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="SplashState.cpp" />
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="Tiles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation_Object.hpp" />
     <ClInclude Include="AssetManager.hpp" />
+    <ClInclude Include="Brick.hpp" />
     <ClInclude Include="BrickWreck.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Collision.hpp" />
-    <ClInclude Include="Event_GeometricObject.hpp" />
-    <ClInclude Include="GeometricObject.hpp" />
     <ClInclude Include="DEFINITIONS.hpp" />
+    <ClInclude Include="Event_GeometricObject.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameOverState.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="GeometricObject.hpp" />
     <ClInclude Include="InputManager.hpp" />
     <ClInclude Include="MainMenuState.hpp" />
     <ClInclude Include="Mario.hpp" />
     <ClInclude Include="SplashState.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="StateMachine.hpp" />
+    <ClInclude Include="Tiles.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{55ecb0d2-0283-4253-81dc-a3de9bc9c142}</ProjectGuid>
+    <ProjectGuid>{f5e75bf2-5938-42d4-b508-f8e666fef5f6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Mario</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>

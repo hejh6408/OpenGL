@@ -123,12 +123,13 @@ namespace Mario
 		}
 
 		{
+			/*
 			std::vector<GeometricObject> arr;
 			std::vector<Anim_Object> question_boxs;
 			_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_ANIM_TILE_PATH, _questionboxPrototype, arr, _anim_tileTextures);
 
-			/*sf::FloatRect border(sf::Vector2f(-10, -10), sf::Vector2f(20, 20));
+			sf::FloatRect border(sf::Vector2f(-10, -10), sf::Vector2f(20, 20));
 			for (auto& obj : arr)
 			{
 				Anim_Object event_obj(obj, this->_mario->Get_Head_Collision_Ref());
