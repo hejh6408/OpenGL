@@ -69,11 +69,14 @@ namespace Mario
 
 	void GeometricObject::Set_Pos(sf::Vector2f pos)
 	{
-		_pos = pos;
+		
 		for(auto& sp : this->_sprites)
 		{
-			sp.setPosition(sp.getPosition().x + pos.x, sp.getPosition().y + pos.y);
+			sf::Vector2f dpos = sp.getPosition() - _pos;
+			// dpos 는 sprite 의 상대 위치
+			sp.setPosition(pos + dpos);
 		}
+		_pos = pos;
 		this->_collision->Set_Pos(pos);
 	}
 	sf::Vector2f GeometricObject::Get_Pos()
@@ -85,7 +88,7 @@ namespace Mario
 		_pos += _dpos;
 		for (auto& sp : this->_sprites)
 		{
-			sp.setPosition(sp.getPosition() + _dpos);
+			sp.move(_dpos);
 		}
 		this->_collision->Move(_dpos);
 	}

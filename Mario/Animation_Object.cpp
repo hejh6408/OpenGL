@@ -11,7 +11,7 @@ namespace Mario
 	Anim_Object::~Anim_Object()
 	{
 	}
-	void Anim_Object::Change_Sprite(void)
+	void Anim_Object::Texture_Change(void)
 	{
 		if (_animTimer.getElapsedTime().asSeconds() < _animDuration)
 		{
@@ -21,14 +21,20 @@ namespace Mario
 		{
 			_displayed_sprite++;
 			_displayed_sprite %= _sprites.size();
+			_animTimer.restart();
 		}
 	}
 	void Anim_Object::Draw(void)
 	{
-		_sprites[_animDuration];
+		_data->window.draw(_sprites[_displayed_sprite]);
+		Texture_Change();
 	}
-	void Anim_Object::Push_Sprite(sf::Sprite sp)
+
+	void Anim_Object::Push_Texture(sf::Texture* texture)
 	{
+		sf::Sprite sp(*texture);
+		sf::Vector2f pos(GeometricObject::Get_Pos());
+		sp.setPosition(pos);
 		_sprites.push_back(sp);
 	}
 }

@@ -28,12 +28,10 @@ namespace Mario
 		sf::Vector2f Get_Size(void);
 	protected:
 		std::vector<sf::Sprite> _sprites;
-	private:
 		GameDataRef _data;
+	private:
 		sf::Vector2f _pos;
-
 		Collision* _collision;
-
 		sf::Vector2u _unitSize;
 		sf::Vector2f _size;
 	};

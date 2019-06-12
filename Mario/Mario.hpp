@@ -41,6 +41,9 @@ namespace Mario
 		void Accelerate_Velocity(sf::Vector2f d_Velocity);
 		void Set_Velocity(sf::Vector2f velocity);
 		sf::Vector2f Get_Velocity(void);
+
+		void Set_Jump(bool isjump);
+
 	private:
 		GameDataRef _data;
 		sf::Clock _clock;
@@ -50,6 +53,7 @@ namespace Mario
 		std::vector<std::vector<sf::Sprite>> _sprites;
 
 		sf::Sprite sp;
+
 		int _marioState;
 		sf::Vector2f _pos;
 
@@ -62,5 +66,10 @@ namespace Mario
 		sf::Vector2f _velocity;
 
 		sf::Vector2f _maxSpeed;
+
+		sf::Clock _motionClock;
+		std::vector<sf::Sprite > _marioMotion;
+		int _idx_motion;
+		bool _isJumping;
 	};
 }

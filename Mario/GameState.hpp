@@ -34,9 +34,7 @@ namespace Mario
 		GeometricObject* _tilePrototype;
 		std::vector<GeometricObject*> _bushPrototypes;
 		std::vector<GeometricObject*> _cloudPrototypes;
-
-		/*std::vector<GeometricObject*> _stairPrototypes;*/
-
+		
 		GeometricObject* _backgrounds;
 
 		std::vector<GeometricObject> _tiles;
@@ -44,6 +42,7 @@ namespace Mario
 		std::vector<std::vector<GeometricObject>> _no_collision_objects_arr;
 		std::vector<std::vector<GeometricObject>> _collision_objects_arr;
 		std::vector<std::vector<Event_GeometricObject>> _event_objects_arr;
+		std::vector<std::vector<Anim_Object>> _anim_objects_arr;
 
 		Mario* _mario;
 		Camera* _camera;
@@ -51,7 +50,6 @@ namespace Mario
 		BrickWreck* _brickwreckPrototype;
 		std::vector<BrickWreck> _brickWrecks;
 
-		Anim_Object* _questionboxPrototype;
 	public:
 		GameState(GameDataRef data);
 
@@ -71,5 +69,9 @@ namespace Mario
 		void _brickDestroy(int& , int& );
 		void _brickMoveUp(int&, int&);
 		void _brickMoveDown(int&, int&);
+
+		void  _questionDestroy(int&, int&);
+		void  _questionBoxMoveUp(int&, int&);
+		void  _questionBoxMoveDown(int&, int&);
 	};
 }

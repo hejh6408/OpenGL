@@ -31,6 +31,10 @@ namespace Mario
 	{
 		_life = life;
 	}
+	int Event_GeometricObject::Get_Life(void)
+	{
+		return _life;
+	}
 	void Event_GeometricObject::Push_Event(Event_Number(*func)(void))
 	{
 		if (func == nullptr) return;

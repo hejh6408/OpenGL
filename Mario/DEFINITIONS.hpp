@@ -33,6 +33,8 @@
 #define MAP_1_1_TILE_PATH "Resources/map/map 1-1 tile.txt"
 #define MAP_1_1_BRICK_PATH "Resources/map/map 1-1 brick.txt"
 #define MAP_1_1_ANIM_TILE_PATH "Resources/map/map 1-1 anim tile.txt"
+#define MAP_1_1_MAGMA_PATH "Resources/map/map 1-1 magma.txt"
+#define MAP_1_1_WAVE_PATH "Resources/map/map 1-1 wave.txt"
 
 #define CAMERA_SPEED 550.0f
 

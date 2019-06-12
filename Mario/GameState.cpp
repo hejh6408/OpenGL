@@ -68,33 +68,38 @@ namespace Mario
 				1, 7
 			);
 		}
-		
-		{	// 파이프 오브젝트
+		{	
+			/*
+			파이프 오브젝트
+			언덕 오브젝트
+			bush 오브젝트
+			cloud 오브젝트
+			계단 오브젝트
+			catle 오브젝트
+			*/
 			_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_PIPE_PATH, _pipePrototype, _collision_objects_arr.back(), _tileTextures);
 
-			// 언덕 오브젝트
 			_no_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_HILL_PATH, _hillPrototype, _no_collision_objects_arr.back(), _tileTextures);
 			
-			// bush 오브젝트
 			_no_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_BUSH_PATH, _bushPrototypes, _no_collision_objects_arr.back(), _tileTextures);
 
-			// cloud 오브젝트
 			_no_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_CLOUD_PATH, _cloudPrototypes, _no_collision_objects_arr.back(), _tileTextures);
 
-			// 계단 오브젝트
 			_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_STAIR_PATH, _stairPrototype, _collision_objects_arr.back(), _tileTextures);
 
-			// catle 오브젝트
 			_no_collision_objects_arr.push_back(std::vector<GeometricObject>());
 			Init_Object(MAP_1_1_CATLE_PATH, _catlePrototype, _no_collision_objects_arr.back(), _tileTextures);
 		}
-		{	// 이벤트 오브젝트
-			// 벽돌 오브젝트
+		{
+			/*
+			이벤트 오브젝트
+			벽돌 오브젝트
+			*/
 			std::vector<GeometricObject> arr;
 			std::vector<Event_GeometricObject> bricks;
 			Init_Object(MAP_1_1_BRICK_PATH, arr, _tileTextures);
@@ -124,22 +129,79 @@ namespace Mario
 
 		{
 			/*
-			std::vector<GeometricObject> arr;
-			std::vector<Anim_Object> question_boxs;
-			_collision_objects_arr.push_back(std::vector<GeometricObject>());
-			Init_Object(MAP_1_1_ANIM_TILE_PATH, _questionboxPrototype, arr, _anim_tileTextures);
+			GeometricObject ttt(_data);
+			ttt.Init(_anim_tileTextures[0], 1, 1);
+			
+			_questionboxPrototype = new Anim_Object(ttt, this->_mario->Get_Head_Collision_Ref(), 0.1);
 
-			sf::FloatRect border(sf::Vector2f(-10, -10), sf::Vector2f(20, 20));
-			for (auto& obj : arr)
+			_questionboxPrototype->Push_Texture(&_anim_tileTextures[0]);
+			_questionboxPrototype->Push_Texture(&_anim_tileTextures[1]);
+			_questionboxPrototype->Push_Texture(&_anim_tileTextures[2]);
+			_questionboxPrototype->Push_Texture(&_anim_tileTextures[3]);
+
+			_questionboxPrototype->Set_Pos(sf::Vector2f(0, 0));
+
+			물음표 상자
+			마그마
+			*/
 			{
-				Anim_Object event_obj(obj, this->_mario->Get_Head_Collision_Ref());
+				std::vector<GeometricObject> arr;
+				std::vector<Anim_Object> question_boxs;
+				Init_Object(MAP_1_1_ANIM_TILE_PATH, arr, _anim_tileTextures);
 
-				event_obj.Push_Event(destroy);
-				event_obj.Push_Event(move_up);
-				event_obj.Set_Border(border);
-				question_boxs.push_back(event_obj);
+				sf::FloatRect border(sf::Vector2f(-10, -10), sf::Vector2f(20, 20));
+				for (auto& obj : arr)
+				{
+					Anim_Object anim_obj(obj, this->_mario->Get_Head_Collision_Ref(), 0.05);
+
+					anim_obj.Push_Event(destroy);
+					anim_obj.Push_Event(move_up);
+					anim_obj.Push_Event(move_up);
+					anim_obj.Set_Border(border);
+
+					anim_obj.Push_Texture(&_anim_tileTextures[1]);
+					anim_obj.Push_Texture(&_anim_tileTextures[2]);
+					anim_obj.Push_Texture(&_anim_tileTextures[3]);
+					question_boxs.push_back(anim_obj);
+				}
+				_anim_objects_arr.push_back(question_boxs);
 			}
-			_event_objects_arr.push_back(bricks);*/
+			{
+				std::vector<GeometricObject> arr;
+				std::vector<Anim_Object> magma;
+				Init_Object(MAP_1_1_MAGMA_PATH, arr, _anim_tileTextures);
+
+				for (auto& obj : arr)
+				{
+					Anim_Object anim_obj(obj, this->_mario->Get_Head_Collision_Ref(), 0.2);
+
+					anim_obj.Push_Texture(&_anim_tileTextures[9]);
+					anim_obj.Push_Texture(&_anim_tileTextures[10]);
+					anim_obj.Push_Texture(&_anim_tileTextures[11]);
+					
+					anim_obj.GeometricObject::Move(sf::Vector2f(0, -UNIT_SIZE * 0.5f));
+					magma.push_back(anim_obj);
+				}
+				_anim_objects_arr.push_back(magma);
+			}
+			{
+				std::vector<GeometricObject> arr;
+				std::vector<Anim_Object> wave;
+				Init_Object(MAP_1_1_WAVE_PATH, arr, _anim_tileTextures);
+
+				for (auto& obj : arr)
+				{
+					Anim_Object anim_obj(obj, this->_mario->Get_Head_Collision_Ref(), 0.2);
+
+					anim_obj.Push_Texture(&_anim_tileTextures[5]);
+					anim_obj.Push_Texture(&_anim_tileTextures[6]);
+					anim_obj.Push_Texture(&_anim_tileTextures[7]);
+
+					anim_obj.GeometricObject::Move(sf::Vector2f(0, -UNIT_SIZE * 0.5f));
+					wave.push_back(anim_obj);
+				}
+				_anim_objects_arr.push_back(wave);
+			}
 		}
 	}
 
@@ -219,6 +281,17 @@ namespace Mario
 					Event_Number func_number = obj.Event(collision_part);
 				}
 			}
+
+			for (auto & object_arr : _anim_objects_arr)
+			{
+				for (auto & obj : object_arr)
+				{
+					const Collision* collision_part = Handle_Collsion(obj, flag);
+
+					Event_Number func_number = obj.Event(collision_part);
+				}
+			}
+
 			// flag == false 라면, bottom collision 과 겹치는 것은 아무것도 없고, 따라서 떨어지는 상태가 된다.
 			if (flag == false && _mario->Get_UpDown() <= 0)
 			{
@@ -249,6 +322,29 @@ namespace Mario
 					}
 				}
 			}
+			for (int i = 0; i < _anim_objects_arr.size(); i++)
+			{
+				for (int j = 0; j < _anim_objects_arr[i].size(); j++)
+				{
+					Event_Number func_number = _anim_objects_arr[i][j].Get_EventState();
+
+					switch (func_number)
+					{
+					case Event_Number::DESTROY:
+						this->_questionDestroy(i, j);
+						continue;
+					case Event_Number::MOVE_UP:
+						this->_questionBoxMoveUp(i, j);
+						continue;
+					case Event_Number::MOVE_DOWN:
+						this->_questionBoxMoveDown(i, j);
+						continue;
+
+					default:
+						continue;
+					}
+				}
+			}
 		}
 		for(int i = 0; i < _brickWrecks.size(); i++)
 		{
@@ -265,9 +361,7 @@ namespace Mario
 			}
 		}
 
-
 		this->_mario->Update(dt);
-
 	}
 
 	void GameState::Draw(float dt)
@@ -301,7 +395,13 @@ namespace Mario
 				obj.Draw();
 			}
 		}
-		
+		for (auto & object_arr : _anim_objects_arr)
+		{
+			for (auto & obj : object_arr)
+			{
+				obj.Draw();
+			}
+		}
 		for (auto & obj : _brickWrecks)
 		{
 			obj.Draw();
@@ -309,6 +409,7 @@ namespace Mario
 
 		this->_mario->Draw();
 		
+		/*this->_questionboxPrototype->Draw();*/
 		this->_data->window.display();
 	}
 
@@ -609,6 +710,77 @@ namespace Mario
 					dpos.y = -obj.Get_MoveDistance().y;
 					obj.Move(dpos);
 					obj.Set_EventState(Event_Number::NONE);
+					obj.Set_Direction(DIRECTION_NONE);
+				}
+			}
+		}
+	}
+	void GameState::_questionDestroy(int &row, int & col)
+	{
+		Event_GeometricObject& obj = _anim_objects_arr[row][col];
+		GeometricObject t(this->_data);
+		t.Init(_tileTextures[8], 1, 1);
+		t.Set_Pos(obj.Get_Pos());
+		std::vector<GeometricObject> v;
+		v.push_back(t);
+		_collision_objects_arr.push_back(v);
+
+		_anim_objects_arr[row].erase(_anim_objects_arr[row].begin() + col);
+		col--;
+	}
+	void GameState::_questionBoxMoveUp(int & row, int & col)
+	{
+		Event_GeometricObject& obj = _anim_objects_arr[row][col];
+		if (obj.Get_Direction() == DIRECTION_NONE)
+		{
+			obj.Set_Direction(DIRECTION_NORTH);
+			obj.Reset_Clock();
+		}
+		else
+		{
+			if ((DIRECTION_NORTH & obj.Get_Direction()))
+			{
+				sf::Vector2f dpos(0, -BRICK_SPEED * 0.01);
+				if (obj.Get_Border().contains(obj.Get_MoveDistance() + dpos))
+				{
+					obj.Move(dpos);
+				}
+				else
+				{
+					dpos.y = obj.Get_Border().top - obj.Get_MoveDistance().y;
+					obj.Move(dpos);
+					obj.Set_EventState(Event_Number::MOVE_DOWN);
+					obj.Set_Direction(DIRECTION_NONE);
+				}
+			}
+		}
+	}
+	void GameState::_questionBoxMoveDown(int &row , int & col)
+	{
+		Event_GeometricObject& obj = _anim_objects_arr[row][col];
+		if (obj.Get_Direction() == DIRECTION_NONE)
+		{
+			obj.Set_Direction(DIRECTION_SOUTH);
+			obj.Reset_Clock();
+		}
+		else
+		{
+			if ((DIRECTION_SOUTH & obj.Get_Direction()))
+			{
+				sf::Vector2f dpos(0, +BRICK_SPEED * 0.01);
+				if ((obj.Get_MoveDistance() + dpos).y < 0)
+				{
+					obj.Move(dpos);
+				}
+				else
+				{
+					dpos.y = -obj.Get_MoveDistance().y;
+					obj.Move(dpos);
+					obj.Set_EventState(Event_Number::NONE);
+					obj.Set_Direction(DIRECTION_NONE);
+					/*
+					여기서 Q Box 가 동전이나 버섯을 내뱉는다.
+					*/
 				}
 			}
 		}

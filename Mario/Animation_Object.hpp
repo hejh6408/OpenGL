@@ -9,9 +9,9 @@ namespace Mario
 		Anim_Object(GeometricObject & object, const Collision * collision, float animDuration);
 		~Anim_Object();
 
-		void Change_Sprite(void);
+		void Texture_Change(void);
 		void Draw(void);
-		void Push_Sprite(sf::Sprite sp);
+		void Push_Texture(sf::Texture* sp);
 	private:
 		int _displayed_sprite;
 		sf::Clock _animTimer;

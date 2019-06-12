@@ -14,6 +14,7 @@ namespace Mario
 		
 		void Reset_Life(void);
 		void Set_Life(int);
+		int Get_Life(void);
 		void Push_Event(Event_Number(*func)(void));
 
 		void Set_EventState(Event_Number);

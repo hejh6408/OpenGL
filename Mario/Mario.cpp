@@ -9,10 +9,12 @@ namespace Mario
 		: _data(data), _marioState(MarioState::STOP_RIGHT), _UpDown(-1)
 		, _pos(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 		, _maxSpeed(CAMERA_SPEED, CAMERA_SPEED), _velocity(0, 0)
+		, _idx_motion(0), _isJumping(false)
 	{
 		this->_bottomCollision  = new Collision(data);
 		this->_bodyCollision = new Collision(data);
 		this->_headCollision = new Collision(data);
+
 	}
 	Mario::~Mario()
 	{
@@ -24,17 +26,20 @@ namespace Mario
 		/*sf::Vector2i pos(UNIT_SIZE * 10 + UNIT_SIZE * (1.29) * 1, UNIT_SIZE * 1); 
 		sf::Vector2i size(UNIT_SIZE * (1.28), UNIT_SIZE * 2);*/
 
-		sf::Vector2i pos(UNIT_SIZE * 1 + UNIT_SIZE * (0) * 3, UNIT_SIZE * 3);
+		sf::Vector2i pos(UNIT_SIZE * 0, UNIT_SIZE * 3);
 		sf::Vector2i size(UNIT_SIZE * 1, UNIT_SIZE * 1);
 		sf::IntRect rect(pos, size);
-		sp.setTextureRect(rect);
+		/*sp.setTextureRect(rect);
 
 		sp.setTexture(texture);
 
 		sp.setPosition(
-			_pos.x - size.x / 2,
-			_pos.y - size.y / 2
+			_pos.x + size.x / 2,
+			_pos.y
 		);
+		sp.setOrigin(
+			sf::Vector2f(sp.getGlobalBounds().width / 2, 0)
+		);*/
 
 		this->_bottomCollision->Init(
 			sf::Vector2f(_pos.x + size.x / 4, _pos.y + size.y - BOTTOM_COLLISION_THICKNESS / 2),
@@ -42,14 +47,35 @@ namespace Mario
 		);
 
 		this->_bodyCollision->Init(
-			sf::Vector2f(_pos.x /*- BOTTOM_COLLISION_THICKNESS / 2*/, _pos.y + BOTTOM_COLLISION_THICKNESS / 2 ),
-			sf::Vector2f(size.x /*+ BOTTOM_COLLISION_THICKNESS * 1*/, size.y - BOTTOM_COLLISION_THICKNESS * 1)
+			sf::Vector2f(_pos.x, _pos.y + BOTTOM_COLLISION_THICKNESS / 2 ),
+			sf::Vector2f(size.x, size.y - BOTTOM_COLLISION_THICKNESS * 1)
 		);
 
 		this->_headCollision->Init(
 			sf::Vector2f(_pos.x + size.x / 3, _pos.y - BOTTOM_COLLISION_THICKNESS / 2),
 			sf::Vector2f(size.x / 3, BOTTOM_COLLISION_THICKNESS)
 		);
+
+		for (int i = 0; i < 4; i++)
+		{
+			sf::IntRect rect(pos, size);
+			sf::Sprite _sp;
+
+			_sp.setTextureRect(rect);
+			_sp.setTexture(texture);
+
+			_sp.setPosition(
+				_pos.x + size.x / 2,
+				_pos.y
+			);
+			_sp.setOrigin(
+				sf::Vector2f(_sp.getGlobalBounds().width / 2, 0)
+			);
+
+			_marioMotion.push_back(_sp);
+			pos.x += UNIT_SIZE;
+		}
+
 	}
 
 	void Mario::Set_Move(int direction)
@@ -65,11 +91,56 @@ namespace Mario
 
 	void Mario::Draw()
 	{
-		this->_data->window.draw(sp);
+		/*this->_data->window.draw(sp);*/
+		this->_data->window.draw(_marioMotion[_idx_motion]);
 	}
 
 	void Mario::Update(float dt)
 	{
+		if (_marioState == MarioState::MOVE_RIGHT || _marioState == MarioState::MOVE_LEFT)
+		{
+			if(_motionClock.getElapsedTime().asSeconds() > 0.2)
+			{
+				if (_idx_motion == _marioMotion.size() - 1) 
+				{
+					_idx_motion = 1;
+				}
+				else 
+				{
+					_idx_motion = (_idx_motion  + 1 )% _marioMotion.size();
+				}
+				_motionClock.restart();
+			}
+		}
+		if (_marioState == MarioState::STOP_RIGHT || _marioState == MarioState::STOP_LEFT)
+		{
+			_idx_motion = 0;
+		}
+		if(_marioState == MarioState::MOVE_RIGHT || _marioState == MarioState::STOP_RIGHT)
+		{
+			_marioMotion[_idx_motion].setScale(
+				sf::Vector2f(1.f, 1.f)
+			);
+		}
+		if (_marioState == MarioState::MOVE_LEFT || _marioState == MarioState::STOP_LEFT)
+		{
+			_marioMotion[_idx_motion].setScale(
+				sf::Vector2f(-1.0f, 1.0f)
+			);
+		}
+		/*if (_marioState == MarioState::MOVE_RIGHT || _marioState == MarioState::STOP_RIGHT)
+		{
+			sp.setScale(
+				sf::Vector2f(1.0f, 1.0f)
+			);
+		}
+		if (_marioState == MarioState::MOVE_LEFT || _marioState == MarioState::STOP_LEFT)
+		{
+			sp.setScale(
+				sf::Vector2f(-1.0f, 1.0f)
+			);
+		}*/
+
 		if(_marioState == MarioState::MOVE_RIGHT)
 		{
 			if (_UpDown == 0) 
@@ -116,18 +187,6 @@ namespace Mario
 		{
 			_velocity.y = -JUMP_SPEED * _UpDown;
 			this->Set_UpDown(-1);
-
-			/*if(this->_jumpClock.getElapsedTime().asSeconds() <= JUMP_DURATION)
-			{
-				_velocity.y = -JUMP_SPEED * _UpDown;
-			}
-			else
-			{
-				this->Set_UpDown(-1);
-				Accelerate_Velocity(
-					sf::Vector2f(0, -GRAVITY_ACCELERATION * _UpDown)
-				);
-			}*/
 		}
 		else
 		{
@@ -198,28 +257,37 @@ namespace Mario
 		this->_headCollision->Set_Pos(
 			pos
 		);
-		sp.setPosition(
+		for(auto& sp : _marioMotion)
+		{
+			sp.setPosition(pos);
+		}
+
+		/*sp.setPosition(
 			_pos
-		);
+		);*/
 	}
 
 	void Mario::Move(sf::Vector2f _d_pos)
 	{
 		_pos += _d_pos;
 
-		this->_bottomCollision->Set_Pos(
-			_bottomCollision->Get_Pos() + _d_pos
+		this->_bottomCollision->Move(
+			_d_pos
 		);
 
-		this->_bodyCollision->Set_Pos(
-			_bodyCollision->Get_Pos() + _d_pos
+		this->_bodyCollision->Move(
+			_d_pos
 		);
-		this->_headCollision->Set_Pos(
-			_headCollision->Get_Pos() + _d_pos
+		this->_headCollision->Move(
+			_d_pos
 		);
-		sp.setPosition(
-			_pos
-		);
+		for (auto& sp : _marioMotion)
+		{
+			sp.move(_d_pos);
+		}
+		/*sp.move(
+			_d_pos
+		);*/
 	}
 	int Mario::Get_State(void)
 	{
@@ -256,5 +324,9 @@ namespace Mario
 	sf::Vector2f Mario::Get_Velocity(void)
 	{
 		return _velocity;
+	}
+	void Mario::Set_Jump(bool isjump)
+	{
+		_isJumping = isjump;
 	}
 }
