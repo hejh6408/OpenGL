@@ -4,7 +4,7 @@ namespace Mario
 {
 	Event_GeometricObject::Event_GeometricObject(GeometricObject & object, const Collision * collision)
 		: GeometricObject(object), _collision(collision), _life(-1), _eventState(Event_Number::NONE), _direction(0)
-		, _border(sf::Vector2f(-1000.f, -1000.f), sf::Vector2f(2000.f, 2000.f))
+		
 	{
 		;
 	}
@@ -18,14 +18,14 @@ namespace Mario
 	{
 		if(collision == _collision && _life >= 0)
 		{
-			Set_EventState(_functions[_life--]());
+			Set_EventState(_events[_life--]);
 			return Get_EventState();
 		}
 		return Event_Number::NONE;
 	}
 	void Event_GeometricObject::Reset_Life(void)
 	{
-		_life = _functions.size() - 1;
+		_life = _events.size() - 1;
 	}
 	void Event_GeometricObject::Set_Life(int life)
 	{
@@ -35,11 +35,9 @@ namespace Mario
 	{
 		return _life;
 	}
-	void Event_GeometricObject::Push_Event(Event_Number(*func)(void))
+	void Event_GeometricObject::Push_Event(Event_Number event_number)
 	{
-		if (func == nullptr) return;
-
-		_functions.push_back(func);
+		_events.push_back(event_number);
 		_life++;
 	}
 	void Event_GeometricObject::Set_EventState(Event_Number _state)
@@ -50,14 +48,7 @@ namespace Mario
 	{
 		return this->_eventState;
 	}
-	void Event_GeometricObject::Reset_Clock(void)
-	{
-		this->_moveClock.restart();
-	}
-	sf::Clock Event_GeometricObject::Get_Clock(void)
-	{
-		return this->_moveClock;
-	}
+	
 	void Event_GeometricObject::Set_Direction(int direction)
 	{
 		_direction = direction;
@@ -66,14 +57,13 @@ namespace Mario
 	{
 		return _direction;
 	}
-	void Event_GeometricObject::Set_Border(sf::FloatRect border)
+	void Event_GeometricObject::Set_DPos(sf::Vector2f dpos)
 	{
-		_border = border;
+		_dpos = dpos;
 	}
-
-	sf::FloatRect Event_GeometricObject::Get_Border(void)
+	sf::Vector2f Event_GeometricObject::Get_DPos(void)
 	{
-		return this->_border;
+		return _dpos;
 	}
 	void Event_GeometricObject::Move(sf::Vector2f dpos)
 	{
@@ -83,5 +73,9 @@ namespace Mario
 	sf::Vector2f Event_GeometricObject::Get_MoveDistance(void)
 	{
 		return _movingDistance;
+	}
+	void Event_GeometricObject::Set_MoveDistance(sf::Vector2f dist)
+	{
+		_movingDistance = dist;
 	}
 }

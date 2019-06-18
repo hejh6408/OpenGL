@@ -11,11 +11,11 @@ namespace Mario
 		
 		void Init(sf::Vector2f pos, sf::Vector2f size);
 		
-		sf::FloatRect Get_Box();
-		bool CheckCollision(Collision& comp_box);
+		sf::FloatRect Get_Box() const;
+		bool CheckCollision(Collision& comp_box) const;
 		
 		void Set_Pos(sf::Vector2f pos);
-		sf::Vector2f Get_Pos();
+		sf::Vector2f Get_Pos() const;
 
 		sf::FloatRect Collision_Area(Collision& comp_box);
 

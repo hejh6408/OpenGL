@@ -18,14 +18,15 @@ namespace Mario
 	{ 
 	private:
 		GameDataRef _data;
-
 		sf::Sprite _background;
-
 		/*Tile* _tile;*/
-		 
 		std::vector<sf::Texture> _tileTextures;
 		std::vector<sf::Texture> _marioTextures;
 		std::vector<sf::Texture> _anim_tileTextures;
+		std::vector<sf::Texture> _coinTextures;
+		std::vector<sf::Texture> _firecrackerTextures;
+		std::vector<sf::Texture> _flowerTextures;
+		std::vector<sf::Texture> _starTextures;
 
 		GeometricObject* _hillPrototype;
 		GeometricObject* _pipePrototype;
@@ -39,17 +40,24 @@ namespace Mario
 
 		std::vector<GeometricObject> _tiles;
 
-		std::vector<std::vector<GeometricObject>> _no_collision_objects_arr;
-		std::vector<std::vector<GeometricObject>> _collision_objects_arr;
-		std::vector<std::vector<Event_GeometricObject>> _event_objects_arr;
-		std::vector<std::vector<Anim_Object>> _anim_objects_arr;
+		std::vector<GeometricObject> _no_collision_objects_arr;
+		std::vector<GeometricObject> _collision_objects_arr;
+		std::vector<Event_GeometricObject> _event_objects_arr;
+		std::vector<Anim_Object> _anim_objects_arr;
+		std::vector<Anim_Object> _item_object_arr;
 
 		Mario* _mario;
 		Camera* _camera;
 
 		BrickWreck* _brickwreckPrototype;
 		std::vector<BrickWreck> _brickWrecks;
+		
+		Anim_Object* _firecrackerPrototype;
+		Anim_Object* _flowerPrototype;
+		Anim_Object* _starPrototype;
+		Anim_Object* _coinPrototype;
 
+		bool paused;
 	public:
 		GameState(GameDataRef data);
 
@@ -63,15 +71,16 @@ namespace Mario
 		void Init_Object(std::string FILE_NAME, std::vector<GeometricObject*>& protoType, std::vector<GeometricObject>& object_arr, std::vector<sf::Texture>&texture);
 		void Init_Object(std::string FILE_NAME, std::vector<GeometricObject>& object_arr, std::vector<sf::Texture>&texture);
 		
-		sf::Sprite Load_Sprite(sf::Texture& texture, sf::IntRect);
-
 		const Collision* Handle_Collsion(GeometricObject& obj,bool& flag);
-		void _brickDestroy(int& , int& );
-		void _brickMoveUp(int&, int&);
-		void _brickMoveDown(int&, int&);
-
-		void  _questionDestroy(int&, int&);
-		void  _questionBoxMoveUp(int&, int&);
-		void  _questionBoxMoveDown(int&, int&);
+		const Collision* Handle_Item(GeometricObject& obj);
+		
+		bool _object_toggle(Event_GeometricObject& obj,float dt);
+		bool _object_move(Event_GeometricObject& obj, float dt);
+		
+		void _spawn_BrickWreck(sf::Vector2f);
+		void _spawn_MetalBox(sf::Vector2f);
+		void _spawn_FireCracker(sf::Vector2f);
+		void _spawn_Coin(sf::Vector2f);
+		void _spawn_Flower(sf::Vector2f);
 	};
 }

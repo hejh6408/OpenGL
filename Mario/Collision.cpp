@@ -21,11 +21,11 @@ namespace Mario
 		_box.width = size.x;
 		_box.height = size.y;
 	}
-	sf::FloatRect Collision::Get_Box()
+	sf::FloatRect Collision::Get_Box() const
 	{
 		return _box;
 	}
-	bool Collision::CheckCollision(Collision & comp_box)
+	bool Collision::CheckCollision(Collision & comp_box) const
 	{
 		if(_box.intersects(comp_box.Get_Box()))
 		{
@@ -38,7 +38,7 @@ namespace Mario
 		_box.left = pos.x;
 		_box.top = pos.y;
 	}
-	sf::Vector2f Collision::Get_Pos()
+	sf::Vector2f Collision::Get_Pos() const
 	{
 		return sf::Vector2f(_box.left, _box.top);
 	}

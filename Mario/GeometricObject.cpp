@@ -112,5 +112,27 @@ namespace Mario
 	{
 		return _size;
 	}
-	
+
+	/*void GeometricObject::Move_Sprite_Rect(int n, sf::Vector2i dpos)
+	{
+		sf::Vector2i pos, size;
+		pos.x = _sprites[n].getTextureRect().left;
+		pos.y = _sprites[n].getTextureRect().top;
+		size.x = _sprites[n].getTextureRect().width;
+		size.y = _sprites[n].getTextureRect().height;
+
+		_sprites[n].setTextureRect(sf::IntRect(pos + dpos, size));
+	}
+	void GeometricObject::Set_Sprite_Rect_Size(int n, sf::Vector2i size)
+	{
+		sf::Vector2i pos;
+		pos.x = _sprites[n].getTextureRect().left;
+		pos.y = _sprites[n].getTextureRect().top;
+		
+		_sprites[n].setTextureRect(sf::IntRect(pos, size));
+	}
+	int GeometricObject::Num_Sprite(void)
+	{
+		return _sprites.size();
+	}*/
 }

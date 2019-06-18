@@ -56,6 +56,22 @@ namespace Mario
 			sf::Vector2f(size.x / 3, BOTTOM_COLLISION_THICKNESS)
 		);
 
+		{
+			sf::IntRect rect(sf::Vector2i(UNIT_SIZE * 5, UNIT_SIZE * 3), size);
+			sf::Sprite _sp;
+
+			_sp.setTextureRect(rect);
+			_sp.setTexture(texture);
+
+			_sp.setPosition(
+				_pos.x + size.x / 2,
+				_pos.y
+			);
+			_sp.setOrigin(
+				sf::Vector2f(_sp.getGlobalBounds().width / 2, 0)
+			);
+			_marioMotion.push_back(_sp);
+		}
 		for (int i = 0; i < 4; i++)
 		{
 			sf::IntRect rect(pos, size);
@@ -75,7 +91,7 @@ namespace Mario
 			_marioMotion.push_back(_sp);
 			pos.x += UNIT_SIZE;
 		}
-
+		
 	}
 
 	void Mario::Set_Move(int direction)
@@ -99,23 +115,34 @@ namespace Mario
 	{
 		if (_marioState == MarioState::MOVE_RIGHT || _marioState == MarioState::MOVE_LEFT)
 		{
-			if(_motionClock.getElapsedTime().asSeconds() > 0.2)
+			if(_motionClock.getElapsedTime().asSeconds() > 0.15)
 			{
-				if (_idx_motion == _marioMotion.size() - 1) 
+				_idx_motion = (_idx_motion + 1) % _marioMotion.size();
+				_idx_motion = (_idx_motion < 2) ? 2 : _idx_motion;
+
+				/*if (_idx_motion == _marioMotion.size() - 1) 
 				{
-					_idx_motion = 1;
+					_idx_motion = 2;
 				}
 				else 
 				{
-					_idx_motion = (_idx_motion  + 1 )% _marioMotion.size();
-				}
+					_idx_motion = (_idx_motion  + 1 ) % _marioMotion.size();
+				}*/
 				_motionClock.restart();
 			}
 		}
 		if (_marioState == MarioState::STOP_RIGHT || _marioState == MarioState::STOP_LEFT)
 		{
+			Set_Velocity(
+				sf::Vector2f(0, _velocity.y)
+			);
+			_idx_motion = 1;
+		}
+		if(_isJumping == true)
+		{
 			_idx_motion = 0;
 		}
+
 		if(_marioState == MarioState::MOVE_RIGHT || _marioState == MarioState::STOP_RIGHT)
 		{
 			_marioMotion[_idx_motion].setScale(

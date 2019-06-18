@@ -26,6 +26,11 @@ namespace Mario
 		void Set_Collision_Pos(sf::Vector2f);
 
 		sf::Vector2f Get_Size(void);
+
+		/*void Move_Sprite_Rect(int n, sf::Vector2i dpos);
+		void Set_Sprite_Rect_Size(int n, sf::Vector2i size);
+
+		int Num_Sprite(void);*/
 	protected:
 		std::vector<sf::Sprite> _sprites;
 		GameDataRef _data;

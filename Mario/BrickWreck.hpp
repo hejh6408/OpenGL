@@ -17,7 +17,6 @@ namespace Mario
 		void Set_Velocity(sf::Vector2f _velocity);
 		void Update(float dt);
 		sf::Clock Get_Clock(void);
-
 		void Draw(void);
 	private:
 		sf::CircleShape _circle;

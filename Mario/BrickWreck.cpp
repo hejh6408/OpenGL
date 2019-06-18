@@ -38,9 +38,12 @@ namespace Mario
 
 	void BrickWreck::Update(float dt)
 	{
-		_circle.move(_velocity * dt);
+		/*_velocity.y += dt * GRAVITY;*/
+		_velocity.y += GRAVITY_ACCELERATION;
+		_velocity.y = std::min(_velocity.y, CAMERA_SPEED);
+		_circle.rotate(30.f * dt);
 
-		_velocity.y += dt * GRAVITY;
+		_circle.move(_velocity * dt);
 	}
 	sf::Clock BrickWreck::Get_Clock(void)
 	{
